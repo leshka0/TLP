@@ -1,0 +1,11 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    David Paul Rosser -- Programmer and Artist -- @ivxvixviii
+
+# TECHNOLOGY COLOPHON
+
+    CSS3, HTML5
+    NGINX, React, Redux, Normalize.css, flexboxgrid.css
