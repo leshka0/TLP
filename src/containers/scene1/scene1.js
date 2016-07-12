@@ -10,6 +10,22 @@ import cameras from './webgl/cameras'
 import renderer from './webgl/renderer'
 import scene from './webgl/scene'
 const OrbitControls = require('three-orbit-controls')(THREE)
+var manifest
+
+// camera controls
+var mouseX = 0
+var mouseY = 0
+var windowHalfX = window.innerWidth / 2;
+var windowHalfY = window.innerHeight / 2;
+function onDocumentMouseMove(event) {
+	mouseX = ( event.clientX - windowHalfX ) * 1;
+	mouseY = ( event.clientY - windowHalfY ) * 1;
+}
+document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+var lookAtVector = new THREE.Vector3(0,0,0)
+var skyboxMesh
+var counter = 0
+var gravityspeed = 0.0008
 
 export default class Scene1 extends Component {
 
@@ -21,12 +37,14 @@ export default class Scene1 extends Component {
 
 		const loader = new AssetLoader.GroupLoader()
 
-		const manifest = [
-			 {id: 'image', src: `${BASE_URL}/images/image.png`, type: 'image'}
-			,{id: 'json', src: `${BASE_URL}/json/data.json`, type: 'json'}
+		manifest = [
+			 {id: 'video', src: `${BASE_URL}/videos/chapter16/earthSky.mp4`, type: 'video'}
+			,{id: 'image', src: `${BASE_URL}/images/skybox16.jpg`, type: 'image'}
+			,{id: 'loop', src: `${BASE_URL}/sounds/chapter16/loop.mp3`, type: 'audio'}
+			,{id: 'voice', src: `${BASE_URL}/sounds/chapter16/voice.mp3`, type: 'audio'}
 		]
 
-		loader.load(manifest).then((assets) => {
+		loader.load(manifest).then((assets) => { 
 			console.log('assets loaded');
 			this._assets = assets
 			this._initWebgl()
@@ -36,6 +54,8 @@ export default class Scene1 extends Component {
 	}
 
 	componentWillUnmount() {
+
+		// TO DO : UNMOUNT THE VIDEO !!
 
 		this._cancelRAF = true
 
@@ -50,7 +70,11 @@ export default class Scene1 extends Component {
 		this._controls.dispose()
 	}
 
+	
+
 	_initWebgl() {
+
+		
 
 		// Use to stop update
 		this._cancelRAF = false
@@ -68,6 +92,95 @@ export default class Scene1 extends Component {
 			this._scene.add(this._lights[id]);
 		};
 
+
+		//  --  APP  -- //
+
+		
+		// find image test
+		function findImage(image) {
+			return image.id === 'image';
+		}
+		function findVideo(video) {
+			return video.id === 'video';
+		}
+		console.log( manifest.find(findImage).src )  
+		// end
+
+		//SKYBOX
+		var materialArray = []
+		var urls = manifest.find(findImage).src;
+		for (var i = 0; i < 6; i++)
+			materialArray.push( new THREE.MeshBasicMaterial({
+				map: THREE.ImageUtils.loadTexture( urls ),
+				side: THREE.BackSide
+			}));
+		var skyMaterial = new THREE.MeshFaceMaterial( materialArray );
+
+		
+		// Skybox
+		var shader = THREE.ShaderLib[ "cube" ];
+		var skyboxMesh = new THREE.Mesh( new THREE.BoxGeometry( 1000, 1000, 1000 ), skyMaterial ); 
+		this._scene.add(skyboxMesh); 
+
+		console.log (skyboxMesh)
+
+		// EARTH
+
+		var sunvideo = document.createElement( 'video' );
+		sunvideo.src = manifest.find(findVideo).src;
+		sunvideo.loop = true; // must call after setting/changing source
+		sunvideo.play(); 
+		var videoImage = document.createElement( 'canvas' );
+		videoImage.width = 2048;
+		videoImage.height = 2048;
+
+		var videoImageContext = videoImage.getContext( '2d' );
+	
+		var textureFlare0 = new THREE.Texture( videoImage );
+
+		TweenLite.ticker.addEventListener("tick", function(){
+			videoImageContext.drawImage(sunvideo, 0, 0, 2048, 2048);
+			textureFlare0.needsUpdate = true;
+		});
+		textureFlare0.repeat.set( 3, 3 );
+		textureFlare0.offset.set( -0.6, -0.4 );
+		
+		var geometry = new THREE.SphereGeometry( 100, 128, 128 )
+		var material = new THREE.MeshPhongMaterial( {
+			color: 0xffffff, 
+			map: textureFlare0,
+			bumpMap: textureFlare0,
+			bumpScale: 0.7,
+			emissive: 0x010713,
+			specularMap: textureFlare0,
+			specular: 0xffffff,
+    		combine: THREE.MixOperation,
+			reflectivity: 5, 
+			shading: THREE.SmoothShading, 
+			wireframe:false} )
+		var earth = new THREE.Mesh( geometry, material )
+		earth.castShadow = false
+		earth.receiveShadow = false
+		
+		earth.position.set( 4, -69, -48 )
+		earth.scale.set( 1, 1, 1 )
+		earth.rotation.set( 6.9, 11, 2.1 )
+
+		this._scene.add( earth )
+
+		
+
+
+		//  --  END  -- //
+
+			this._cameras.user.position.set( 0, 28, 300 );
+			this._cameras.dev.position.set( 0, 28, 119 );
+			TweenMax.to(this._lights.directional, 25, {intensity:1})
+			TweenMax.to(this._lights.point, 25, {intensity:1})
+			TweenMax.to(this._cameras.user.position, 10, {z:50})
+			TweenMax.to(earth.rotation, 10, {y:12})
+		
+
 		// Helpers
 		if( flags.showHelpers ){
 			this._scene.add( new THREE.GridHelper( 50, 10 ) );
@@ -83,6 +196,8 @@ export default class Scene1 extends Component {
 		this._resize()
 		this._bind()
 		this._update();
+
+		
 	}
 
 	_bind() {
@@ -91,7 +206,7 @@ export default class Scene1 extends Component {
 	}
 
 	_zoom( camera, zoom ){
-		camera.position.set( 1 * zoom, 0.75 * zoom, 1 * zoom );
+		//camera.position.set( 1 * zoom, 0.75 * zoom, 1 * zoom );
 		camera.lookAt( new THREE.Vector3() );
 	}
 
@@ -124,6 +239,24 @@ export default class Scene1 extends Component {
 		this._renderer.setScissor( left, bottom, width, height );
 		this._renderer.setScissorTest( true );
 		this._renderer.setClearColor( 0x121212 );
+
+		// CONSTANT ANIMATIONS 
+		this._scene.rotation.z = Math.sin((counter)-0.5 )*0.2;
+		this._scene.rotation.y = Math.sin(counter)*0.1;
+		counter += gravityspeed;
+
+		if (skyboxMesh){
+			skyboxMesh.rotation.x += 0.0001;
+			skyboxMesh.rotation.y += 0.0001;
+		}
+
+		if( !flags.debug ){
+			this._cameras.user.position.x += ( (mouseX)/20 - this._cameras.user.position.x +10 ) * .002;
+			this._cameras.user.position.y += ( ( -mouseY)/40 - this._cameras.user.position.y ) * .004;
+			this._cameras.user.lookAt(lookAtVector);
+		} 
+
+
 
 		this._renderer.render( this._scene, camera );
 	}

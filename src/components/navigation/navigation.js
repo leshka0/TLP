@@ -17,7 +17,7 @@ export default class Navigation extends Component {
 			scenes.push(
 				<li key={i}>
 					<Link to={`/scene${i}`}>
-						Scene {i}
+						Chapter {i}
 					</Link>
 				</li>
 			)

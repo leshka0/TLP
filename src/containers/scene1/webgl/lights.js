@@ -4,31 +4,26 @@ export default function() {
 
 	// Lights
 	let controller = {
-		 ambient: 0xd4d4d4
-		,directional: 0xFFFFFF
+		 ambient: 0x000000
+		,directional: 0xfffff2
+		,point: 0xd4e6ff
 	}
 
 	let lights = {
 		 ambient: new THREE.AmbientLight( controller.ambient )
-		,directional: new THREE.DirectionalLight( controller.directional, 0.6 )
+		,directional: new THREE.DirectionalLight( controller.directional, 0 )
+		,point: new THREE.PointLight( controller.point, 0 )
 	}
 
-	lights.directional.position.set( -10, 3.3, -10 )
-	lights.directional.castShadow = true
+	lights.directional.position.set( 135, 200, -80)
+	//lights.directional.castShadow = true
+	//lights.directional.shadowDarkness = 0.5;
+	
+	lights.point.position.set( 0, 250, -370 )
+	//lights.point.castShadow = true
+	//lights.point.shadowDarkness = 0.3;
+	//lights.point.shadowCameraVisible = true;
 
 	return lights
 
-	// let lightFolder = gui.addFolder('lights')
-	// lightFolder.open()
-	//
-	// lightFolder.addColor(controller, 'ambient').onChange(updateLights.bind(this))
-	// lightFolder.addColor(controller, 'directional').onChange(updateLights.bind(this))
-	// lightFolder.add(lights.directional.position, 'x', -10, 10).name('dir light x')
-	// lightFolder.add(lights.directional.position, 'y', -10, 10).name('dir light y')
-	// lightFolder.add(lights.directional.position, 'z', -10, 10).name('dir light z')
-	//
-	// function updateLights(){
-	// 	lights.ambient.color.setHex( String(controller.ambient).replace('#', '0x'))
-	// 	lights.directional.color.setHex( String(controller.directional).replace('#', '0x'))
-	// }
 }
