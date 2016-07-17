@@ -11,6 +11,8 @@ import lights from './webgl/lights'
 import cameras from './webgl/cameras'
 import renderer from './webgl/renderer'
 import scene from './webgl/scene'
+
+
 const OrbitControls = require('three-orbit-controls')(THREE)
 var manifest
 
@@ -29,7 +31,7 @@ var skyboxMesh
 var counter = 0
 var gravityspeed = 0.0008
 
-export default class Scene1 extends Component {
+export default class Scene6 extends Component {
 
 	constructor(props) {
 		super(props)
@@ -40,8 +42,8 @@ export default class Scene1 extends Component {
 		const loader = new AssetLoader.GroupLoader()
 
 		manifest = [
-			 {id: 'video', src: `${BASE_URL}/videos/chapter16/earthSky.mp4`, type: 'video'}
-			,{id: 'image', src: `${BASE_URL}/images/skybox16.jpg`, type: 'image'}
+			 {id: 'prince', src: `${BASE_URL}/videos/chapter6/prince.webm`, type: 'video'}
+			,{id: 'skybox', src: `${BASE_URL}/images/chapter6/skybox.jpg`, type: 'image'}
 		]
 
 		loader.load(manifest).then((assets) => { 
@@ -75,7 +77,7 @@ export default class Scene1 extends Component {
 	_initWebgl() {
 
 		var sound = new Sounds();
-		sound.transitionIn(16);
+		sound.transitionIn(6);
 
 		
 
@@ -101,10 +103,10 @@ export default class Scene1 extends Component {
 		
 		// find image test
 		function findImage(image) {
-			return image.id === 'image';
+			return image.id === 'skybox';
 		}
 		function findVideo(video) {
-			return video.id === 'video';
+			return video.id === 'prince';
 		}
 		console.log( manifest.find(findImage).src )  
 		// end
@@ -278,7 +280,7 @@ export default class Scene1 extends Component {
 	render() {
 		return (
 			<div>
-				<section className="o-page scene1">
+				<section className="o-page scene6">
 					<div className="webgl" ref="webgl"></div>
 				</section>
 			</div>

@@ -10,14 +10,15 @@ export default class Navigation extends Component {
 
 	render() {
 
-		const totalScenes = 2
+		const totalScenes = 17
 		let scenes = []
 
 		for (var i = 0; i < totalScenes; i++) {
 			scenes.push(
 				<li key={i}>
 					<Link to={`/scene${i}`}>
-						Chapter {i}
+						
+						{i}
 					</Link>
 				</li>
 			)
@@ -28,13 +29,13 @@ export default class Navigation extends Component {
 				<ul>
 					<li>
 						<Link to="/home">
-							Home
+							Intro
 						</Link>
 					</li>
 					{scenes}
 					<li>
 						<Link to="/end">
-							End
+							Outro
 						</Link>
 					</li>
 				</ul>

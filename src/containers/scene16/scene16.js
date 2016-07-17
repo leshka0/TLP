@@ -29,7 +29,7 @@ var skyboxMesh
 var counter = 0
 var gravityspeed = 0.0008
 
-export default class Scene1 extends Component {
+export default class Scene16 extends Component {
 
 	constructor(props) {
 		super(props)
@@ -41,7 +41,7 @@ export default class Scene1 extends Component {
 
 		manifest = [
 			 {id: 'video', src: `${BASE_URL}/videos/chapter16/earthSky.mp4`, type: 'video'}
-			,{id: 'image', src: `${BASE_URL}/images/skybox16.jpg`, type: 'image'}
+			,{id: 'image', src: `${BASE_URL}/images/chapter16/skybox.jpg`, type: 'image'}
 		]
 
 		loader.load(manifest).then((assets) => { 
@@ -278,7 +278,7 @@ export default class Scene1 extends Component {
 	render() {
 		return (
 			<div>
-				<section className="o-page scene1">
+				<section className="o-page scene16">
 					<div className="webgl" ref="webgl"></div>
 				</section>
 			</div>

@@ -6,7 +6,7 @@ import PageWrapper from '../components/page-wrapper/page-wrapper'
 import Navigation from '../components/navigation/navigation'
 import Sounds from '../components/sounds/sounds'
 const DURATION = 1000
-
+//<Sounds />
 class App extends Component {
 
   render() {
@@ -15,7 +15,7 @@ class App extends Component {
     return (
       <section>
         <Navigation />
-        <Sounds />
+        
         <ReactCSSTransitionGroup
           component={PageWrapper}
           transitionName="example"

@@ -2,32 +2,37 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import Howler from 'howler'
 import { BASE_URL } from '../../constants/environment'
-
+var voice
+var loop
 export default class Sounds extends Component {
 
 	componentDidMount() {
-		var voice
-		var loop = new Howl({
-		  urls: [`src/assets/sounds/intro/loop.mp3`],
+		loop = new Howl({
+		  urls: [`${BASE_URL}/sounds/intro/loop.mp3`],
 		  loop: true
 		}).play();
+	
+}
 
+	transitionIn(chapter) {
 		// PLAY THE VOICE AFTER THE FADE
 		function playVoice(){ 
 			 voice = new Howl({
-			  urls: [`src/assets/sounds/chapter16/voice.mp3`],
+			  urls: [`${BASE_URL}/sounds/chapter`+chapter+`/voice.mp3`],
 			  loop: false
 			}).play();
 		}
-		// FADE
-		loop.fadeOut(0, 4000)
+		// FADE IN
+		//loop.fadeOut(0, 4000)
 		var loop = new Howl({
-		  urls: [`src/assets/sounds/chapter16/loop.mp3`],
+		  urls: [`${BASE_URL}/sounds/chapter`+chapter+`/loop.mp3`],
 		  loop: true
 		}).fadeIn(1, 4000, playVoice);
-		
-		
 	}
+	transitionOut() {
+		loop.fadeOut(0, 4000)
+	}
+
 
 
 	render() {
