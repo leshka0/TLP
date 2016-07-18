@@ -12,6 +12,16 @@ import cameras from './webgl/cameras'
 import renderer from './webgl/renderer'
 import scene from './webgl/scene'
 
+//COLLADA LOADER
+//require('./../../lib/three/ColladaLoader.js')
+//require('./../../lib/three/Animation.js')
+//require('./../../lib/three/AnimationHandler.js')
+//require('./../../lib/three/KeyFrameAnimation.js')
+//require('./../../lib/three/Detector.js') 
+//require('./../../lib/three/stats.min.js')
+
+var collada = require('three-loaders-collada')(THREE);
+//this.loader = new THREE.ColladaLoader();
 
 const OrbitControls = require('three-orbit-controls')(THREE)
 var manifest
@@ -44,6 +54,7 @@ export default class Scene6 extends Component {
 		manifest = [
 			 {id: 'prince', src: `${BASE_URL}/videos/chapter6/prince.webm`, type: 'video'}
 			,{id: 'skybox', src: `${BASE_URL}/images/chapter6/skybox.jpg`, type: 'image'}
+			,{id: 'planet', src: `${BASE_URL}/dae/chapter6/planet.dae`, type: 'dae'}
 		]
 
 		loader.load(manifest).then((assets) => { 

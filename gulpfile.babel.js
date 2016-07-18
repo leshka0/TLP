@@ -50,6 +50,7 @@ const paths = {
 	srcVideos: 'src/assets/videos/**',
 	srcSounds: 'src/assets/sounds/**',
 	srcJson: 'src/assets/json/**/*.json',
+	srcDae: 'src/assets/dae/**/*.dae',
 	srcIcons: ['src/assets/apple-touch-icon.png',
 						 'src/assets/favicon.ico'],
 	dist: dist,
@@ -57,6 +58,7 @@ const paths = {
 	distImg: `${dist}/images`,
 	distFonts: `${dist}/fonts`,
 	distJson: `${dist}/json`,
+	distDae: `${dist}/dae`,
 	distSvg: `${dist}/svg`,
 	distVideos: `${dist}/videos`,
 	distSounds: `${dist}/sounds`
@@ -196,6 +198,11 @@ gulp.task('json', () => {
 		.pipe(gulp.dest(paths.distJson))
 })
 
+gulp.task('dae', () => {
+	gulp.src(paths.srcDae)
+		.pipe(gulp.dest(paths.distDae))
+})
+
 gulp.task('sounds', () => {
 	gulp.src(paths.srcSounds)
 		.pipe(gulp.dest(paths.distSounds))
@@ -219,6 +226,7 @@ gulp.task('watch', cb => {
 		'svg',
 		'fonts',
 		'json',
+		'dae',
 		'videos',
 		'images',
 		'icons',
@@ -239,6 +247,7 @@ gulp.task('preview', cb => {
 		'videos',
 		'fonts',
 		'json',
+		'dae',
 		'icons',
 		'sounds',
 	]
@@ -255,6 +264,7 @@ gulp.task('build', cb => {
 		'videos',
 		'fonts',
 		'json',
+		'dae',
 		'icons',
 		'sounds',
 	]
