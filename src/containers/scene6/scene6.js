@@ -25,6 +25,7 @@ var collada = require('three-loaders-collada')(THREE);
 
 const OrbitControls = require('three-orbit-controls')(THREE)
 var manifest
+var sound
 
 // camera controls
 var mouseX = 0 
@@ -87,7 +88,11 @@ export default class Scene6 extends Component {
 
 	_initWebgl() {
 
-		var sound = new Sounds();
+		//console.log(window.Howler)
+		for (var i = window.Howler._howls.length - 1; i >= 0; i--) {
+			window.Howler._howls[i].fadeOut(0, 4000);
+		}
+		sound = new Sounds();
 		sound.transitionIn(6);
 
 		

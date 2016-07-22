@@ -11,7 +11,7 @@ export default class Sounds extends Component {
 		  urls: [`${BASE_URL}/sounds/intro/loop.mp3`],
 		  loop: true
 		}).play();
-	
+	 
 }
 
 	transitionIn(chapter) {
@@ -23,8 +23,7 @@ export default class Sounds extends Component {
 			}).play();
 		}
 		// FADE IN
-		//loop.fadeOut(0, 4000)
-		var loop = new Howl({
+		loop = new Howl({
 		  urls: [`${BASE_URL}/sounds/chapter`+chapter+`/loop.mp3`],
 		  loop: true
 		}).fadeIn(1, 4000, playVoice);

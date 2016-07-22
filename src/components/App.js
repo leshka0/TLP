@@ -5,6 +5,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import PageWrapper from '../components/page-wrapper/page-wrapper'
 import Navigation from '../components/navigation/navigation'
 import Sounds from '../components/sounds/sounds'
+var sound
 const DURATION = 1000
 //<Sounds />
 class App extends Component {
