@@ -194,6 +194,7 @@ export default class Scene6 extends Component {
 		const texturePrince = new THREE.Texture( videoPrince );
 
 		TweenLite.ticker.addEventListener("tick", function(){
+			videoPrinceContext.clearRect(0, 0, 512, 512);
 			videoPrinceContext.drawImage(texturePrince1, 0, 0, 512, 512);
 			texturePrince.needsUpdate = true;
 		});
