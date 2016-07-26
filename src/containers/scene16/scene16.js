@@ -74,13 +74,12 @@ export default class Scene16 extends Component {
 	
 
 	_initWebgl() {
-		console.log(window.Howler)
+		//console.log(window.Howler)
 		for (var i = window.Howler._howls.length - 1; i >= 0; i--) {
 			window.Howler._howls[i].fadeOut(0, 4000);
 		}
 		sound = new Sounds();
 		sound.transitionIn(16);
-		console.log(window.Howler._howls.length) 
 		
 
 		// Use to stop update
