@@ -7,6 +7,7 @@ import Scene0 from '../containers/scene0/scene0'
 import Scene1 from '../containers/scene1/scene1'
 import Scene16 from '../containers/scene16/scene16'
 import Scene6 from '../containers/scene6/scene6'
+import Scene7 from '../containers/scene7/scene7'
 
 export default function configureRoutes() {
 	return (
@@ -15,6 +16,7 @@ export default function configureRoutes() {
 			<Route path="/scene0" component={Scene0} />
 			<Route path="/scene1" component={Scene1} />
 			<Route path="/scene6" component={Scene6} />
+			<Route path="/scene7" component={Scene7} />
 			<Route path="/scene16" component={Scene16} />
 			<Route path="/end" component={End} />
 			<Route path="*" component={Home} />

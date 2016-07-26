@@ -33,6 +33,7 @@ document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 var lookAtVector = new THREE.Vector3(0,0,0)
 var skyboxMesh
 var lensFlare
+var skyvideo = null
 var counter = 0
 var gravityspeed = 0.0008
 
@@ -48,6 +49,7 @@ export default class Scene6 extends Component {
 
 		manifest = [
 			 {id: 'prince', src: `${BASE_URL}/videos/chapter6/prince.webm`, type: 'video'}
+			,{id: 'skyvideo', src: `${BASE_URL}/videos/chapter6/sky.webm`, type: 'video'}
 			,{id: 'skybox', src: `${BASE_URL}/images/chapter6/skybox.jpg`, type: 'image'}
 			,{id: 'planet', src: `${BASE_URL}/dae/chapter6/planet.dae`, type: 'dae'}
 			,{id: 'textureFlare0', src: `${BASE_URL}/videos/chapter6/lensflare0.mp4`, type: 'video'}
@@ -157,6 +159,9 @@ export default class Scene6 extends Component {
 		function findFlare9(image) {
 			return image.id === 'textureFlare9';
 		}
+		function findSkyVideo(video) {
+			return video.id === 'skyvideo';
+		}
 		function findVideo(video) {
 			return video.id === 'prince';
 		}
@@ -178,6 +183,47 @@ export default class Scene6 extends Component {
 		var shader = THREE.ShaderLib[ "cube" ];
 		var skyboxMesh = new THREE.Mesh( new THREE.BoxGeometry( 1000, 1000, 1000 ), skyMaterial ); 
 		this._scene.add(skyboxMesh); 
+
+		// SKY VIDEO
+		//const textureskyvideo = new THREE.VideoTexture(document.getElementById('video-sky'))
+		//textureskyvideo.minFilter = THREE.LinearFilter;
+		//textureskyvideo.magFilter = THREE.LinearFilter;
+
+		const textureSky1 = document.createElement( 'video' );
+
+		textureSky1.src = manifest.find(findSkyVideo).src;
+		textureSky1.loop = true; // must call after setting/changing source
+		textureSky1.play();
+		var videoSky = document.createElement( 'canvas' );
+		videoSky.width = 512;
+		videoSky.height = 512;
+
+		var videoSkyContext = videoSky.getContext( '2d' );
+		
+		const textureSky = new THREE.Texture( videoSky );
+
+		TweenLite.ticker.addEventListener("tick", function(){
+			videoSkyContext.clearRect(0, 0, 512, 512);
+			videoSkyContext.drawImage(textureSky1, 0, 0, 512, 512);
+			textureSky.needsUpdate = true;
+		});
+
+
+
+		skyvideo = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshPhongMaterial({
+			map: textureSky,
+			emissive: 0xffffff,
+			emissiveMap: textureSky,
+			side: THREE.DoubleSide,
+			color: 0xFFFFFF,
+			transparent: true
+		}))
+		skyvideo.position.set( 56, -260, -300 )
+		skyvideo.scale.set( 8, 8 )
+		this._scene.add(skyvideo)
+
+		
+
 
 		// PRINCE
 		const texturePrince1 = document.createElement( 'video' );
