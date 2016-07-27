@@ -29,7 +29,7 @@ export default class Sounds extends Component {
 		}).fadeIn(1, 4000, playVoice);
 	}
 	transitionOut() {
-		loop.fadeOut(0, 4000)
+		loop.fadeOut(0, 6000)
 	}
 
 
