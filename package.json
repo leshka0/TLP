@@ -27,6 +27,7 @@
     "fastclick": "^1.0.6",
     "flexboxgrid": "^6.3.0",
     "gsap": "^1.18.5",
+    "gulp": "^3.9.1",
     "history": "^2.0.0",
     "howler": "^1.1.29",
     "immutable-devtools": "0.0.7",
